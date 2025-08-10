@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครอบรม - Vibe Coding, Spec-Driven Development, Context Engineering</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<body>
+    <!-- Tech Background -->
+    <div id="techBackground" class="tech-background"></div>
+    
+    <!-- Progress Bar - Fixed at Top -->
+    <div class="progress-container">
+        <div class="progress-info">
+            <span class="progress-text">ความคืบหน้า: <span id="progressPercent">0%</span></span>
+            <span class="progress-details">(<span id="progressCount">0</span>/<span id="progressTotal">0</span> ช่อง)</span>
+        </div>
+        <div class="progress-bar-track">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header Banner -->
+        <div class="banner">
+            <div class="banner-content">
+                <div class="university-logo">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TG9nbzwvdGV4dD4KPHN2Zz4K" alt="มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี" class="logo-img">
+                </div>
+                
+                <h1 class="main-title">
+                    โครงการอบรม การใช้ AI เขียนโค้ด
+                </h1>
+                
+                <div class="event-subtitle">
+                    ขอเชิญผู้สนใจทั่วไป ร่วมอบรม(ออนไลน์)เชิงปฏิบัติการ
+                </div>
+                
+                <!-- Topic Cards -->
+                <div class="topics">
+                    <div class="topic-card" data-topic="vibe">
+                        <i class="fas fa-code"></i>
+                        <h3>Vibe Coding</h3>
+                        <p>เขียนโค้ดที่มี Flow และ Rhythm</p>
+                    </div>
+                    <div class="topic-card" data-topic="spec">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Spec-Driven Development</h3>
+                        <p>พัฒนาซอฟต์แวร์จาก Specification</p>
+                    </div>
+                    <div class="topic-card" data-topic="context">
+                        <i class="fas fa-brain"></i>
+                        <h3>Context Engineering</h3>
+                        <p>จัดการ Context ให้มีประสิทธิภาพ</p>
+                    </div>
+                </div>
+                
+                <!-- Presenter Info -->
+                <div class="presenter-info">
+                    <h2>วิทยากรโดย คุณธวัชชัย สิงงาม</h2>
+                    <p>Senior DevOps Engineer at PTTEP</p>
+                    <div class="presenter-photo">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik01MCA1MEMzOC45NTQzIDUwIDMwIDQxLjA0NTcgMzAgMzBDMzAgMTguOTU0MyAzOC45NTQzIDEwIDUwIDEwQzYxLjA0NTcgMTAgNzAgMTguOTU0MyA3MCAzMEM3MCA0MS4wNDU3IDYxLjA0NTcgNTAgNTAgNTBaIiBmaWxsPSIjOUNBM0FGIi8+CjxwYXRoIGQ9Ik01MCA2MEM0MS43MTU3IDYwIDM1IDY2LjcxNTcgMzUgNzVWOTBINjVWNzVDNjUgNjYuNzE1NyA1OC4yODQzIDYwIDUwIDYwWiIgZmlsbD0iIzlDQTNBRiIvPgo8L3N2Zz4K" alt="คุณธวัชชัย สิงงาม" class="presenter-img">
+                    </div>
+                </div>
+                
+                <!-- Event Details -->
+                <div class="event-details">
+                    <p><strong>อบรมออนไลน์ ในวันเสาร์ ที่ 16 สิงหาคม 2568</strong></p>
+                    <p><strong>เวลา 09.00 น. - 16.00 น.</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="main-content">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>ลงทะเบียนเข้าร่วมอบรม</h2>
+                    <p class="form-subtitle">กรุณากรอกข้อมูลให้ครบถ้วน</p>
+                    <div class="form-note">
+                        <p>ฟรีค่าลงทะเบียน แต่จำกัดจำนวนผู้เข้าร่วมเพียง 200 คน</p>
+                        <p>จะปิดรับสมัครเมื่อครบจำนวนหรือถึงกำหนดเวลา</p>
+                    </div>
+                </div>
+
+                <form id="registrationForm" class="registration-form">
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-user"></i> ข้อมูลส่วนตัว</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">ชื่อ *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                                <div class="error-message"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">นามสกุล *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                                <div class="error-message"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">อีเมล *</label>
+                                <input type="email" id="email" name="email" required>
+                                <div class="error-message"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-phone"></i> ข้อมูลติดต่อ</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">เบอร์โทรศัพท์ *</label>
+                                <input type="tel" id="phone" name="phone" required>
+                                <div class="error-message"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="organization">สถานที่ทำงาน *</label>
+                                <input type="text" id="organization" name="organization" required>
+                                <div class="error-message"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="position">ตำแหน่ง *</label>
+                                <input type="text" id="position" name="position" required>
+                                <div class="error-message"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience and Interests -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-star"></i> ประสบการณ์และความสนใจ</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="experience">ประสบการณ์การเขียนโปรแกรม *</label>
+                                <select id="experience" name="experience" required>
+                                    <option value="">เลือกระดับประสบการณ์</option>
+                                    <option value="beginner">เริ่มต้น (0-1 ปี)</option>
+                                    <option value="intermediate">ปานกลาง (2-5 ปี)</option>
+                                    <option value="advanced">มีประสบการณ์ (5+ ปี)</option>
+                                </select>
+                                <div class="error-message"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="programmingLanguages">ภาษาโปรแกรมที่ใช้</label>
+                                <input type="text" id="programmingLanguages" name="programmingLanguages" placeholder="เช่น Python, Java, JavaScript">
+                            </div>
+                            <div class="form-group">
+                                <label for="expectations">ความคาดหวังจากการอบรม</label>
+                                <textarea id="expectations" name="expectations" rows="3" placeholder="บอกเราว่าคุณอยากได้อะไรจากการอบรมครั้งนี้"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic Selection -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-heart"></i> หัวข้อที่สนใจ</h3>
+                        <div class="topics-selection">
+                            <div class="topic-option">
+                                <input type="checkbox" id="topic-vibe" name="topics" value="vibe">
+                                <label for="topic-vibe">
+                                    <i class="fas fa-code"></i>
+                                    <div class="topic-content">
+                                        <h4>Vibe Coding</h4>
+                                        <p>เขียนโค้ดที่มี Flow และ Rhythm</p>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="topic-option">
+                                <input type="checkbox" id="topic-spec" name="topics" value="spec">
+                                <label for="topic-spec">
+                                    <i class="fas fa-file-alt"></i>
+                                    <div class="topic-content">
+                                        <h4>Spec-Driven Development</h4>
+                                        <p>พัฒนาซอฟต์แวร์จาก Specification</p>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="topic-option">
+                                <input type="checkbox" id="topic-context" name="topics" value="context">
+                                <label for="topic-context">
+                                    <i class="fas fa-brain"></i>
+                                    <div class="topic-content">
+                                        <h4>Context Engineering</h4>
+                                        <p>จัดการ Context ให้มีประสิทธิภาพ</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            ลงทะเบียนเข้าร่วมอบรม
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="organizer-info">
+                <h3><i class="fas fa-heart"></i> ข้อมูลการติดต่อผู้จัดงาน</h3>
+                <p><strong>จัดโดย:</strong> สาขาวิชาวิทยาการคอมพิวเตอร์ คณะศิลปศาสตร์และวิทยาศาสตร์ มหาวิทยาลัยราชภัฏชัยภูมิ</p>
+                <p>หากมีข้อสงสัย สามารถติดต่อสอบถามรายละเอียดเพิ่มเติมได้ที่กล่องข้อความ (Inbox): <a href="https://m.me/narasakp" target="_blank" rel="noopener noreferrer">facebook.com/narasakp</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>ลงทะเบียนสำเร็จ!</h3>
+            <p>ขอบคุณที่สมัครเข้าร่วมอบรม เราจะส่งข้อมูลเพิ่มเติมไปยังอีเมลของคุณ</p>
+            <div class="success-features">
+                <div class="feature">
+                    <i class="fas fa-envelope"></i>
+                    <span>ได้รับอีเมลยืนยัน</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-calendar"></i>
+                    <span>บันทึกวันที่อบรม</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-gift"></i>
+                    <span>รอรับเอกสารประกอบ</span>
+                </div>
+            </div>
+            <button class="modal-btn" onclick="closeModal()">เข้าใจแล้ว</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
