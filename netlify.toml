@@ -1,0 +1,24 @@
+[build]
+  publish = "."
+  
+[build.environment]
+  NODE_VERSION = "18"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://script.google.com https://docs.google.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://script.google.com https://docs.google.com;"
+
+[[redirects]]
+  from = "/dashboard"
+  to = "/dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/analytics"
+  to = "/analytics.html"
+  status = 200

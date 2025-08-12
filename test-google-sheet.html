@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Google Sheet Connection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .result {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover { background: #0056b3; }
+        .method { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Test Google Sheet Connection</h1>
+        <p>ทดสอบการเชื่อมต่อกับ Google Sheet และ Google Apps Script</p>
+        
+        <div class="method">
+            <h3>Method 1: Google Sheets CSV Export (Recommended)</h3>
+            <button onclick="testCSVMethod()">Test CSV Method</button>
+            <div id="csvResult"></div>
+        </div>
+        
+        <div class="method">
+            <h3>Method 2: Google Apps Script (Form Submission)</h3>
+            <button onclick="testFormSubmission()">Test Form Submission</button>
+            <div id="formResult"></div>
+        </div>
+        
+        <div class="method">
+            <h3>Method 3: Google Apps Script (Fetch - มักเจอ CORS)</h3>
+            <button onclick="testFetchMethod()">Test Fetch Method</button>
+            <div id="fetchResult"></div>
+        </div>
+        
+        <div class="method">
+            <h3>Current Sheet Data:</h3>
+            <div id="sheetData"></div>
+        </div>
+    </div>
+
+    <script>
+        const SHEET_ID = '1uI_TA9lR0RsLcakF_GGb7LsM5H8gR3XCnQuiWQ0NuUQ';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyT2RSzRX4kEEsvA_wcd4bvwdO7kmEgBZg7cRnaWwF_QCV4ACSxOlaSu-mh3DmM_Kl2xQ/exec';
+
+        // Method 1: CSV Export (ไม่เจอ CORS)
+        async function testCSVMethod() {
+            const resultDiv = document.getElementById('csvResult');
+            resultDiv.innerHTML = '<div class="info">🔍 กำลังทดสอบ CSV method...</div>';
+            
+            try {
+                const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+                console.log('CSV URL:', csvUrl);
+                
+                const response = await fetch(csvUrl, { mode: 'cors' });
+                
+                if (response.ok) {
+                    const csvText = await response.text();
+                    const lines = csvText.split('\n').filter(line => line.trim() !== '');
+                    const totalRegistrations = Math.max(0, lines.length - 1);
+                    
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ CSV Method สำเร็จ!</div>
+                        <p><strong>จำนวนลงทะเบียน:</strong> ${totalRegistrations} คน</p>
+                        <p><strong>จำนวนบรรทัด:</strong> ${lines.length} บรรทัด (รวม header)</p>
+                        <details>
+                            <summary>ดู CSV Data</summary>
+                            <pre>${csvText.substring(0, 500)}${csvText.length > 500 ? '...' : ''}</pre>
+                        </details>
+                    `;
+                    
+                    // อัปเดต current data
+                    document.getElementById('sheetData').innerHTML = `
+                        <div class="success">📊 ข้อมูลปัจจุบัน: ${totalRegistrations} คนลงทะเบียน</div>
+                    `;
+                    
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ CSV Method ล้มเหลว: ${response.status} ${response.statusText}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ CSV Method เกิดข้อผิดพลาด: ${error.message}</div>`;
+                console.error('CSV Error:', error);
+            }
+        }
+
+        // Method 2: Form Submission (แก้ปัญหา CORS)
+        async function testFormSubmission() {
+            const resultDiv = document.getElementById('formResult');
+            resultDiv.innerHTML = '<div class="info">📝 กำลังทดสอบ Form Submission...</div>';
+            
+            try {
+                // สร้าง hidden iframe สำหรับ form submission
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.name = 'hiddenFrame';
+                document.body.appendChild(iframe);
+                
+                // สร้าง form
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = APPS_SCRIPT_URL;
+                form.target = 'hiddenFrame';
+                
+                // เพิ่ม hidden input
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = 'count';
+                form.appendChild(actionInput);
+                
+                document.body.appendChild(form);
+                
+                // Submit form
+                form.submit();
+                
+                // รอผลลัพธ์
+                setTimeout(() => {
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ Form Submission ส่งสำเร็จ!</div>
+                        <p>⚠️ ไม่สามารถอ่านผลลัพธ์ได้เนื่องจาก cross-origin policy</p>
+                        <p>💡 แต่วิธีนี้จะทำงานได้สำหรับการส่งข้อมูล (POST)</p>
+                    `;
+                    
+                    // ลบ form และ iframe
+                    document.body.removeChild(form);
+                    document.body.removeChild(iframe);
+                }, 2000);
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Form Submission เกิดข้อผิดพลาด: ${error.message}</div>`;
+                console.error('Form Error:', error);
+            }
+        }
+
+        // Method 3: Fetch (จะเจอ CORS)
+        async function testFetchMethod() {
+            const resultDiv = document.getElementById('fetchResult');
+            resultDiv.innerHTML = '<div class="info">🌐 กำลังทดสอบ Fetch method...</div>';
+            
+            try {
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=count&_t=${Date.now()}`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ Fetch Method สำเร็จ!</div>
+                        <p><strong>ผลลัพธ์:</strong> ${JSON.stringify(data)}</p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ Fetch Method ล้มเหลว: ${response.status}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Fetch Method เจอ CORS Error: ${error.message}</div>`;
+                console.error('Fetch Error:', error);
+            }
+        }
+
+        // Auto test CSV method เมื่อโหลดหน้า
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 เริ่มทดสอบ Google Sheet connection...');
+            testCSVMethod();
+        });
+    </script>
+</body>
+</html>

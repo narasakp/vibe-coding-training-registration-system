@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายงานสรุปผลการประเมินโครงการ</title>
+    <link rel="stylesheet" href="evaluation-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* Fix chart text visibility on purple background */
+        .chart-container h3, .chart-container h4 {
+            color: white !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-weight: bold;
+        }
+        .demo-card h4 {
+            color: white !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            font-weight: bold;
+            font-size: 18px !important;
+            background: rgba(0,0,0,0.3) !important;
+            padding: 8px 12px !important;
+            border-radius: 6px !important;
+            margin-bottom: 15px !important;
+            text-align: center !important;
+            border: 1px solid rgba(255,255,255,0.3) !important;
+        }
+        /* Ensure chart canvas has white text */
+        canvas {
+            filter: contrast(1.2) brightness(1.1);
+        }
+        
+        /* Make control buttons more prominent */
+        .control-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+            color: white !important;
+            border: 2px solid #ffffff !important;
+            padding: 12px 20px !important;
+            font-size: 16px !important;
+            font-weight: bold !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+            transition: all 0.3s ease !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+            margin: 5px !important;
+        }
+        
+        .control-btn:hover {
+            background: linear-gradient(135deg, #d97706, #b45309) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4) !important;
+            border-color: #fbbf24 !important;
+        }
+        
+        .control-btn:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+        }
+        
+        .control-btn i {
+            margin-right: 8px !important;
+            font-size: 18px !important;
+        }
+        
+        /* Make control panel more prominent */
+        .control-panel {
+            background: rgba(255,255,255,0.1) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255,255,255,0.2) !important;
+            border-radius: 12px !important;
+            padding: 20px !important;
+            margin-bottom: 30px !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="techBackground"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="university-logo">
+                <img src="images/logo.png" alt="มหาวิทยาลัยราชภัฏสุรินทร์" class="logo-img">
+            </div>
+            <h1 class="main-title">รายงานสรุปผลการประเมินโครงการ</h1>
+            <h2 class="project-title">การใช้ AI เขียนโค้ด</h2>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="panel-buttons">
+                <button id="loadDataBtn" class="control-btn">
+                    <i class="fas fa-sync-alt"></i>
+                    โหลดข้อมูลล่าสุด
+                </button>
+                <button id="generateReportBtn" class="control-btn">
+                    <i class="fas fa-file-word"></i>
+                    สร้างรายงาน Word
+                </button>
+                <button id="exportPdfBtn" class="control-btn">
+                    <i class="fas fa-file-pdf"></i>
+                    ส่งออก PDF
+                </button>
+            </div>
+            <div class="last-updated">
+                <span id="lastUpdated">ข้อมูลล่าสุด: -</span>
+            </div>
+        </div>
+
+        <!-- Statistics Overview -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalResponses">-</div>
+                    <div class="stat-label">จำนวนผู้ตอบ</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="averageRating">-</div>
+                    <div class="stat-label">คะแนนเฉลี่ย</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-thumbs-up"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="recommendPercent">-</div>
+                    <div class="stat-label">% แนะนำ</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demographics Overview -->
+        <div class="demographics-section">
+            <h3><i class="fas fa-chart-pie"></i> ข้อมูลทั่วไปของผู้ตอบแบบประเมิน</h3>
+            <div class="demographics-row" style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between;">
+                <div class="demo-card" style="flex: 1; min-width: 300px; max-width: 48%; margin-bottom: 20px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                    <h4 style="margin-bottom: 10px; text-align: center;">การแจกแจงตามเพศ</h4>
+                    <canvas id="genderChart" class="chart-container" style="max-height: 350px; height: 350px; width: 100%;"></canvas>
+                </div>
+                <div class="demo-card" style="flex: 1; min-width: 300px; max-width: 48%; margin-bottom: 20px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                    <h4 style="margin-bottom: 10px; text-align: center;">การแจกแจงตามอายุ</h4>
+                    <canvas id="ageChart" class="chart-container" style="max-height: 350px; height: 350px; width: 100%;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section" style="display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 30px; justify-content: space-between;">
+            <div class="chart-container" style="flex: 1; min-width: 300px; max-width: 48%; margin-bottom: 20px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                <h3 style="margin-bottom: 10px; text-align: center;">คะแนนประเมินแต่ละด้าน</h3>
+                <canvas id="ratingsChart" style="max-height: 350px; height: 350px; width: 100%;"></canvas>
+            </div>
+            <div class="chart-container" style="flex: 1; min-width: 300px; max-width: 48%; margin-bottom: 20px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                <h3 style="margin-bottom: 10px; text-align: center;">การแนะนำโครงการ</h3>
+                <canvas id="recommendationChart" style="max-height: 350px; height: 350px; width: 100%;"></canvas>
+            </div>
+        </div>
+
+        <!-- Detailed Report -->
+        <div id="detailedReport" class="detailed-report">
+            <div class="report-header">
+                <h2>รายงานสรุปผลการประเมินโครงการอบรม</h2>
+                <h3>การใช้ AI เขียนโค้ด</h3>
+                <p class="report-date">วันที่สร้างรายงาน: <span id="reportDate">-</span></p>
+            </div>
+
+            <div class="report-section">
+                <h4>1. ข้อมูลทั่วไป</h4>
+                <div class="report-content" id="generalInfo">
+                    <p>กำลังโหลดข้อมูล...</p>
+                </div>
+            </div>
+
+            <div class="report-section">
+                <h4>2. ผลการประเมินด้านเนื้อหาการอบรม</h4>
+                <div class="report-content" id="contentEvaluation">
+                    <p>กำลังโหลดข้อมูล...</p>
+                </div>
+            </div>
+
+            <div class="report-section">
+                <h4>3. ผลการประเมินด้านวิทยากร</h4>
+                <div class="report-content" id="instructorEvaluation">
+                    <p>กำลังโหลดข้อมูล...</p>
+                </div>
+            </div>
+
+            <div class="report-section">
+                <h4>4. ผลการประเมินด้านการจัดงาน</h4>
+                <div class="report-content" id="organizationEvaluation">
+                    <p>กำลังโหลดข้อมูล...</p>
+                </div>
+            </div>
+
+            <div class="report-section">
+                <h4>5. ผลการประเมินด้านเทคโนโลยี</h4>
+                <div class="report-content" id="technologyEvaluation">
+                    <p>กำลังโหลดข้อมูล...</p>
+                </div>
+            </div>
+
+            <div class="report-section">
+                <h4>6. ผลการประเมินโดยรวม</h4>
+                <div class="report-content" id="overallEvaluation">
+                    <p>กำลังโหลดข้อมูล...</p>
+                </div>
+            </div>
+
+            <div class="report-section">
+                <h4>7. สรุปและข้อเสนอแนะ</h4>
+                <div class="report-content" id="conclusions">
+                    <p>กำลังโหลดข้อมูล...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Modal -->
+        <div id="loadingModal" class="modal">
+            <div class="modal-content">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <p>กำลังประมวลผลข้อมูล...</p>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="successModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-check-circle"></i> สำเร็จ!</h2>
+                </div>
+                <div class="modal-body">
+                    <p id="successMessage">ดำเนินการเสร็จสิ้น</p>
+                </div>
+                <div class="modal-actions">
+                    <button onclick="closeModal('successModal')" class="modal-btn">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="evaluation-report-script.js"></script>
+</body>
+</html>

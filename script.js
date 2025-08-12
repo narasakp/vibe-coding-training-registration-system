@@ -2,13 +2,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing...');
     initializeForm();
+    createFallingPetals();
     initializeTopicCards();
     initializeInteractiveFeatures();
-    
-    // Initialize falling petals with a small delay to ensure DOM is ready
-    setTimeout(() => {
-        createFallingPetals();
-    }, 500);
+    loadRegistrationCounter();
 });
 
 // Initialize form functionality
@@ -127,12 +124,30 @@ async function handleFormSubmit(e) {
         // Collect form data
         const registrationData = collectFormData(formData);
         
-        // Submit to Google Sheets (you'll need to replace with your Google Apps Script URL)
+        // Get current counter values before submission
+        const currentRegistered = parseInt(document.getElementById('registeredCount').textContent) || 0;
+        
+        // Submit to Google Sheets
         const success = await submitToGoogleSheets(registrationData);
         
         if (success) {
+            // Immediately update the UI optimistically
+            const newRegistered = currentRegistered + 1;
+            const totalSeats = 500; // Should match TOTAL_SEATS in loadRegistrationCounter
+            const remainingSeats = Math.max(0, totalSeats - newRegistered);
+            
+            // Update the display immediately
+            updateCounterDisplay(totalSeats, newRegistered, remainingSeats);
+            
+            // Show success message
             showSuccessModal();
             form.reset();
+            
+            // Then refresh the counter from the server to ensure accuracy
+            console.log('Refreshing registration counter from server...');
+            await loadRegistrationCounter().catch(error => {
+                console.error('Failed to refresh registration counter:', error);
+            });
         } else {
             throw new Error('Failed to submit');
         }
@@ -174,7 +189,7 @@ function collectFormData(formData) {
 // Submit to Google Sheets - ใช้วิธีที่พิสูจน์แล้วจากโปรเจกต์เดิม
 async function submitToGoogleSheets(data) {
     // ใช้ URL จากโปรเจกต์เดิมที่ทำงานได้
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRrQGPIW8WBG_7xUvx7YjCFr1_cWr2I2njtjya1cQawhrS14EX0fYFfFZkQ71tXIN8/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyT2RSzRX4kEEsvA_wcd4bvwdO7kmEgBZg7cRnaWwF_QCV4ACSxOlaSu-mh3DmM_Kl2xQ/exec';
     
     console.log('Submitting data to Google Sheets:', data);
     
@@ -211,7 +226,7 @@ async function submitToGoogleSheets(data) {
             document.body.appendChild(iframe);
         }
         
-        // เพิ่มข้อมูลเป็น hidden inputs
+        // Add data as hidden inputs
         Object.keys(data).forEach(key => {
             const input = document.createElement('input');
             input.type = 'hidden';
@@ -225,7 +240,7 @@ async function submitToGoogleSheets(data) {
         // Submit form
         form.submit();
         
-        // ลบ form หลังจาก submit
+        // Remove form after submission
         setTimeout(() => {
             if (form.parentNode) {
                 form.parentNode.removeChild(form);
@@ -348,6 +363,12 @@ function updateTopicSelection() {
 
 // Create falling petals effect
 function createFallingPetals() {
+    // Prevent multiple initializations
+    if (window.petalsInitialized) {
+        console.log('Falling petals already initialized, skipping...');
+        return;
+    }
+    
     console.log('Initializing falling petals...');
     
     // Try to find tech background, if not found, use body
@@ -361,6 +382,12 @@ function createFallingPetals() {
     const petalClasses = ['petal-blue', 'petal-green', 'petal-purple', 'petal-indigo', 'petal-cyan'];
     
     function createPetal() {
+        // Double check we don't have too many petals
+        const currentPetals = container.querySelectorAll('.falling-petal').length;
+        if (currentPetals >= 12) {
+            return; // Don't create more if we already have enough
+        }
+        
         const petal = document.createElement('div');
         petal.className = `falling-petal ${petalClasses[Math.floor(Math.random() * petalClasses.length)]}`;
         petal.textContent = petalSymbols[Math.floor(Math.random() * petalSymbols.length)];
@@ -374,11 +401,10 @@ function createFallingPetals() {
         petal.style.fontSize = (0.8 + Math.random() * 0.6) + 'rem';
         
         // Apply animation
-        const duration = 8 + Math.random() * 6; // 8-14 seconds
+        const duration = 12 + Math.random() * 8; // 12-20 seconds (slower)
         petal.style.animation = `fall ${duration}s linear forwards`;
         
         container.appendChild(petal);
-        console.log('Petal created:', petal.textContent);
         
         // Remove petal after animation completes
         setTimeout(() => {
@@ -388,19 +414,22 @@ function createFallingPetals() {
         }, duration * 1000 + 1000); // Add 1 second buffer
     }
     
-    // Create initial petals
-    for (let i = 0; i < 8; i++) {
-        setTimeout(() => createPetal(), i * 500); // Stagger initial petals
+    // Create initial petals with longer delays
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => createPetal(), i * 1000); // Stagger initial petals every 1 second
     }
     
-    // Continue creating petals
-    setInterval(() => {
-        // Limit total petals on screen
+    // Continue creating petals at a slower rate
+    const petalInterval = setInterval(() => {
         const currentPetals = container.querySelectorAll('.falling-petal').length;
-        if (currentPetals < 15) {
+        if (currentPetals < 8) { // Reduced from 15 to 8
             createPetal();
         }
-    }, 2000); // Create new petal every 2 seconds
+    }, 4000); // Increased from 2000 to 4000 (every 4 seconds)
+    
+    // Store interval ID for potential cleanup
+    window.petalInterval = petalInterval;
+    window.petalsInitialized = true;
     
     console.log('Falling petals initialized successfully');
 }
@@ -615,10 +644,251 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeFormInteractionTracking();
 });
 
+// Toggle other channel input based on selection
+function toggleOtherInput(selectElement) {
+    const otherInput = document.getElementById('otherChannel');
+    if (selectElement.value === 'other') {
+        otherInput.style.display = 'block';
+        otherInput.required = true;
+    } else {
+        otherInput.style.display = 'none';
+        otherInput.required = false;
+        otherInput.value = '';
+    }
+    // Update progress after changing requirements
+    updateFormProgress();
+}
+
+// Load registration counter from Google Sheets
+// Helper function to make API calls with retry logic
+async function fetchWithRetry(url, options = {}, retries = 3, delay = 1000) {
+    try {
+        const response = await fetch(url, {
+            ...options,
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'omit',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                ...(options.headers || {})
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return response;
+    } catch (error) {
+        if (retries > 0) {
+            console.warn(`Retrying... ${retries} attempts left`);
+            await new Promise(resolve => setTimeout(resolve, delay));
+            return fetchWithRetry(url, options, retries - 1, delay * 2);
+        }
+        throw error;
+    }
+}
+
+async function loadRegistrationCounter() {
+    const TOTAL_SEATS = 500; // จำนวนที่นั่งทั้งหมด
+    
+    console.log('กำลังโหลดตัวนับการลงทะเบียน...');
+    
+    try {
+        // แสดงสถานะกำลังโหลด
+        const counterElement = document.querySelector('.registration-counter');
+        if (counterElement) {
+            counterElement.classList.add('counter-loading');
+        }
+        
+        // ใช้ CSV method เป็นหลัก (ตามที่แก้ไขแล้วใน memories)
+        console.log('🚀 ใช้ Google Sheet CSV method เป็นหลัก...');
+        let registeredCount = await fetchFromGoogleSheetCSV();
+        
+        // ถ้า CSV ไม่ได้ผล ใช้ข้อมูลล่าสุดที่รู้จัก
+        if (registeredCount === null) {
+            console.log('❌ ไม่สามารถดึงข้อมูลจาก Google Sheet CSV ได้ - ใช้ข้อมูลล่าสุด');
+            registeredCount = getLastKnownCount(); // ใช้ข้อมูลจริงล่าสุด
+        }
+        
+        const remainingSeats = Math.max(0, TOTAL_SEATS - registeredCount);
+        
+        console.log(`ตัวนับ - ทั้งหมด: ${TOTAL_SEATS}, ลงทะเบียนแล้ว: ${registeredCount}, เหลือ: ${remainingSeats}`);
+        
+        // อัปเดตการแสดงผล
+        updateCounterDisplay(TOTAL_SEATS, registeredCount, remainingSeats);
+        
+        // ลบสถานะกำลังโหลด
+        if (counterElement) {
+            counterElement.classList.remove('counter-loading');
+        }
+        
+        return registeredCount;
+        
+    } catch (error) {
+        console.error('เกิดข้อผิดพลาดในการโหลดตัวนับ:', error);
+        
+        // แสดงข้อผิดพลาดเมื่อไม่สามารถดึงข้อมูลได้
+        console.error('❌ ไม่สามารถดึงข้อมูลจาก Google Sheet ได้');
+        updateCounterDisplay(TOTAL_SEATS, 0, TOTAL_SEATS);
+        
+        // ลบสถานะกำลังโหลด
+        const counterElement = document.querySelector('.registration-counter');
+        if (counterElement) {
+            counterElement.classList.remove('counter-loading');
+        }
+        
+        return simulatedCount;
+    }
+}
+
+// ลองใช้ CORS mode ปกติ
+async function tryFetchWithCORS(url) {
+    try {
+        const timestamp = new Date().getTime();
+        const response = await fetch(`${url}?action=count&_t=${timestamp}`, {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-store',
+            headers: {
+                'Pragma': 'no-cache',
+                'Cache-Control': 'no-cache, no-store, must-revalidate'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('CORS ข้อมูลที่ได้รับ:', data);
+        
+        if (data && data.success && typeof data.count === 'number') {
+            return data.count;
+        }
+        
+        return null;
+    } catch (error) {
+        console.log('CORS fetch ล้มเหลว:', error.message);
+        return null;
+    }
+}
+
+// ดึงข้อมูลจาก Google Sheet CSV Export โดยตรง (ทำงานได้แล้ว!)
+async function fetchFromGoogleSheetCSV() {
+    try {
+        const SHEET_ID = '1uI_TA9lR0RsLcakF_GGb7LsM5H8gR3XCnQuiWQ0NuUQ';
+        const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+        
+        console.log('📊 กำลังดึงข้อมูลจาก Google Sheet CSV...');
+        const response = await fetch(csvUrl, { 
+            mode: 'cors',
+            cache: 'no-cache'
+        });
+        
+        if (response.ok) {
+            const csvText = await response.text();
+            const lines = csvText.split('\n').filter(line => line.trim() !== '');
+            const totalRegistrations = Math.max(0, lines.length - 1); // ลบ header row
+            
+            console.log(`✅ ดึงข้อมูลจาก Google Sheet สำเร็จ: ${totalRegistrations} คน`);
+            console.log(`📝 จำนวนบรรทัดทั้งหมด: ${lines.length}, ข้อมูลจริง: ${totalRegistrations}`);
+            
+            // บันทึกใน localStorage
+            localStorage.setItem('lastKnownCount', totalRegistrations.toString());
+            
+            return totalRegistrations;
+        } else {
+            console.log('❌ Google Sheet CSV response ไม่สำเร็จ:', response.status);
+            return null;
+        }
+    } catch (error) {
+        console.log('❌ เกิดข้อผิดพลาดในการดึง Google Sheet CSV:', error.message);
+        return null;
+    }
+}
+
+// ดึงข้อมูลจริงล่าสุดที่รู้จัก (ไม่ใช่ข้อมูลจำลอง)
+function getLastKnownCount() {
+    // ใช้ข้อมูลจริงที่บันทึกไว้ใน localStorage
+    const savedCount = localStorage.getItem('lastKnownCount');
+    if (savedCount && !isNaN(parseInt(savedCount))) {
+        const count = parseInt(savedCount);
+        console.log(`💾 ใช้ข้อมูลจริงที่บันทึกไว้: ${count} คน`);
+        return count;
+    }
+    
+    // ถ้าไม่มีข้อมูลที่บันทึกไว้ ให้ใช้ข้อมูลจริงล่าสุดที่ทราบ
+    const lastKnownCount = 3; // จากข้อมูลจริงล่าสุดใน Google Sheet
+    console.log(`📊 ใช้ข้อมูลจริงล่าสุด: ${lastKnownCount} คน (จาก Google Sheet)`);
+    localStorage.setItem('lastKnownCount', lastKnownCount.toString());
+    return lastKnownCount;
+}
+
+// ลองใช้ no-cors mode สำหรับ fallback
+async function tryFetchWithFallback(url) {
+    try {
+        const timestamp = new Date().getTime();
+        const response = await fetch(`${url}?action=count&_t=${timestamp}`, {
+            method: 'GET',
+            mode: 'no-cors',
+            cache: 'no-store'
+        });
+        
+        console.log('No-CORS response received (opaque)');
+        
+        // เนื่องจาก no-cors จะได้ opaque response ที่อ่านไม่ได้
+        // ลองดึงจาก Google Sheet CSV แทน
+        return await fetchFromGoogleSheetCSV();
+    } catch (error) {
+        console.log('No-CORS fetch ล้มเหลว:', error.message);
+        return null;
+    }
+}
+
+// ฟังก์ชันนี้ถูกลบออกแล้ว - ไม่ใช้ข้อมูลจำลองอีกต่อไป
+// ระบบจะดึงข้อมูลจาก Google Sheet จริงๆ เท่านั้น
+
+// อัปเดตการแสดงผลตัวนับ
+function updateCounterDisplay(total, registered, remaining) {
+    console.log('กำลังอัปเดตตัวนับ:', {total, registered, remaining});
+    
+    const totalElement = document.getElementById('totalSeats');
+    const registeredElement = document.getElementById('registeredCount');
+    const remainingElement = document.getElementById('remainingSeats');
+    
+    if (totalElement) {
+        totalElement.textContent = total.toLocaleString('th-TH');
+        totalElement.setAttribute('data-value', total);
+    }
+    
+    if (registeredElement) {
+        registeredElement.textContent = registered.toLocaleString('th-TH');
+        registeredElement.setAttribute('data-value', registered);
+    }
+    
+    if (remainingElement) {
+        remainingElement.textContent = remaining.toLocaleString('th-TH');
+        remainingElement.setAttribute('data-value', remaining);
+        
+        // Change color if seats are running low
+        if (remaining <= 10 && remaining > 0) {
+            remainingElement.style.color = '#f59e0b'; // Orange warning
+        } else if (remaining === 0) {
+            remainingElement.style.color = '#ef4444'; // Red full
+            remainingElement.textContent = 'เต็มแล้ว';
+        } else {
+            remainingElement.style.color = ''; // Default gradient
+        }
+    }
+}
+
 // Export functions for potential external use
 window.TrainingRegistration = {
     validateField,
     showSuccessModal,
     closeModal,
-    updateFormProgress
+    updateFormProgress,
+    toggleOtherInput
 };

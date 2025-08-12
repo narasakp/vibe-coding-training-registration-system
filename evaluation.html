@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบประเมินโครงการอบรม - การใช้ AI เขียนโค้ด</title>
+    <link rel="stylesheet" href="evaluation-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="techBackground"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="university-logo">
+                <img src="images/logo.png" alt="มหาวิทยาลัยราชภัฏสุรินทร์" class="logo-img">
+            </div>
+            <h1 class="main-title">แบบประเมินโครงการอบรม</h1>
+            <h2 class="project-title">การใช้ AI เขียนโค้ด</h2>
+            <p class="evaluation-subtitle">กรุณาประเมินโครงการอบรมในแต่ละด้านตามความเป็นจริง</p>
+        </div>
+
+        <!-- Evaluation Form -->
+        <div class="main-content">
+            <div class="form-container">
+                <form id="evaluationForm" class="evaluation-form" 
+                action="https://script.google.com/macros/s/AKfycbyIrPo2ADKVNmbBtq6_qgOoQrKiGpxy5bTSkqXZPQwBT8yMqUs5C7sunLPOU58EJ4awCw/exec"    
+                      method="POST" 
+                      target="evaluation_frame">
+                    
+                    <!-- Hidden field for action -->
+                    <input type="hidden" name="action" value="submitEvaluation">
+                    
+                    <!-- Demographics Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-users"></i> ข้อมูลทั่วไป</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>เพศ</label>
+                                <div class="radio-group">
+                                    <input type="radio" id="genderMale" name="participantGender" value="ชาย">
+                                    <label for="genderMale">ชาย</label>
+                                    
+                                    <input type="radio" id="genderFemale" name="participantGender" value="หญิง">
+                                    <label for="genderFemale">หญิง</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="participantAge">อายุ</label>
+                                <select id="participantAge" name="participantAge">
+                                    <option value="">เลือกช่วงอายุ</option>
+                                    <option value="14 ปี หรือน้อยกว่า">14 ปี หรือน้อยกว่า</option>
+                                    <option value="15-17 ปี">15-17 ปี</option>
+                                    <option value="18-22 ปี">18-22 ปี</option>
+                                    <option value="23-30 ปี">23-30 ปี</option>
+                                    <option value="31-50 ปี">31-50 ปี</option>
+                                    <option value="51-60 ปี">51-60 ปี</option>
+                                    <option value="61 ปีขึ้นไป">61 ปีขึ้นไป</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Evaluation -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-book"></i> การประเมินเนื้อหาการอบรม</h3>
+                        
+                        <div class="rating-question">
+                            <label class="question-label">1. ความพึงพอใจต่อเนื้อหาการอบรม *</label>
+                            <div class="rating-scale">
+                                <span class="scale-label">น้อยที่สุด</span>
+                                <div class="rating-options">
+                                    <input type="radio" id="content_1" name="contentSatisfaction" value="1" required>
+                                    <label for="content_1">1</label>
+                                    <input type="radio" id="content_2" name="contentSatisfaction" value="2" required>
+                                    <label for="content_2">2</label>
+                                    <input type="radio" id="content_3" name="contentSatisfaction" value="3" required>
+                                    <label for="content_3">3</label>
+                                    <input type="radio" id="content_4" name="contentSatisfaction" value="4" required>
+                                    <label for="content_4">4</label>
+                                    <input type="radio" id="content_5" name="contentSatisfaction" value="5" required>
+                                    <label for="content_5">5</label>
+                                </div>
+                                <span class="scale-label">มากที่สุด</span>
+                            </div>
+                        </div>
+
+                        <div class="rating-question">
+                            <label class="question-label">2. ความเหมาะสมของระดับความยากง่ายของเนื้อหา *</label>
+                            <div class="rating-scale">
+                                <span class="scale-label">ยากเกินไป</span>
+                                <div class="rating-options">
+                                    <input type="radio" id="difficulty_1" name="contentDifficulty" value="1" required>
+                                    <label for="difficulty_1">1</label>
+                                    <input type="radio" id="difficulty_2" name="contentDifficulty" value="2" required>
+                                    <label for="difficulty_2">2</label>
+                                    <input type="radio" id="difficulty_3" name="contentDifficulty" value="3" required>
+                                    <label for="difficulty_3">3</label>
+                                    <input type="radio" id="difficulty_4" name="contentDifficulty" value="4" required>
+                                    <label for="difficulty_4">4</label>
+                                    <input type="radio" id="difficulty_5" name="contentDifficulty" value="5" required>
+                                    <label for="difficulty_5">5</label>
+                                </div>
+                                <span class="scale-label">ง่ายเกินไป</span>
+                            </div>
+                        </div>
+
+                        <div class="rating-question">
+                            <label class="question-label">3. ความเป็นประโยชน์ของเนื้อหาต่อการทำงาน *</label>
+                            <div class="rating-scale">
+                                <span class="scale-label">น้อยที่สุด</span>
+                                <div class="rating-options">
+                                    <input type="radio" id="usefulness_1" name="contentUsefulness" value="1" required>
+                                    <label for="usefulness_1">1</label>
+                                    <input type="radio" id="usefulness_2" name="contentUsefulness" value="2" required>
+                                    <label for="usefulness_2">2</label>
+                                    <input type="radio" id="usefulness_3" name="contentUsefulness" value="3" required>
+                                    <label for="usefulness_3">3</label>
+                                    <input type="radio" id="usefulness_4" name="contentUsefulness" value="4" required>
+                                    <label for="usefulness_4">4</label>
+                                    <input type="radio" id="usefulness_5" name="contentUsefulness" value="5" required>
+                                    <label for="usefulness_5">5</label>
+                                </div>
+                                <span class="scale-label">มากที่สุด</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Instructor Evaluation -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-chalkboard-teacher"></i> การประเมินวิทยากร</h3>
+                        
+                        <div class="rating-question">
+                            <label class="question-label">4. ความรู้ความสามารถของวิทยากร *</label>
+                            <div class="rating-scale">
+                                <span class="scale-label">น้อยที่สุด</span>
+                                <div class="rating-options">
+                                    <input type="radio" id="instructor_knowledge_1" name="instructorKnowledge" value="1" required>
+                                    <label for="instructor_knowledge_1">1</label>
+                                    <input type="radio" id="instructor_knowledge_2" name="instructorKnowledge" value="2" required>
+                                    <label for="instructor_knowledge_2">2</label>
+                                    <input type="radio" id="instructor_knowledge_3" name="instructorKnowledge" value="3" required>
+                                    <label for="instructor_knowledge_3">3</label>
+                                    <input type="radio" id="instructor_knowledge_4" name="instructorKnowledge" value="4" required>
+                                    <label for="instructor_knowledge_4">4</label>
+                                    <input type="radio" id="instructor_knowledge_5" name="instructorKnowledge" value="5" required>
+                                    <label for="instructor_knowledge_5">5</label>
+                                </div>
+                                <span class="scale-label">มากที่สุด</span>
+                            </div>
+                        </div>
+
+                        <div class="rating-question">
+                            <label class="question-label">5. ทักษะการสื่อสารและการถ่ายทอดความรู้ *</label>
+                            <div class="rating-scale">
+                                <span class="scale-label">น้อยที่สุด</span>
+                                <div class="rating-options">
+                                    <input type="radio" id="instructor_communication_1" name="instructorCommunication" value="1" required>
+                                    <label for="instructor_communication_1">1</label>
+                                    <input type="radio" id="instructor_communication_2" name="instructorCommunication" value="2" required>
+                                    <label for="instructor_communication_2">2</label>
+                                    <input type="radio" id="instructor_communication_3" name="instructorCommunication" value="3" required>
+                                    <label for="instructor_communication_3">3</label>
+                                    <input type="radio" id="instructor_communication_4" name="instructorCommunication" value="4" required>
+                                    <label for="instructor_communication_4">4</label>
+                                    <input type="radio" id="instructor_communication_5" name="instructorCommunication" value="5" required>
+                                    <label for="instructor_communication_5">5</label>
+                                </div>
+                                <span class="scale-label">มากที่สุด</span>
+                            </div>
+                        </div>
+
+                        <div class="rating-question">
+                            <label class="question-label">6. การตอบคำถามและการให้คำแนะนำ *</label>
+                            <div class="rating-scale">
+                                <span class="scale-label">น้อยที่สุด</span>
+                                <div class="rating-options">
+                                    <input type="radio" id="instructor_qa_1" name="instructorQA" value="1" required>
+                                    <label for="instructor_qa_1">1</label>
+                                    <input type="radio" id="instructor_qa_2" name="instructorQA" value="2" required>
+                                    <label for="instructor_qa_2">2</label>
+                                    <input type="radio" id="instructor_qa_3" name="instructorQA" value="3" required>
+                                    <label for="instructor_qa_3">3</label>
+                                    <input type="radio" id="instructor_qa_4" name="instructorQA" value="4" required>
+                                    <label for="instructor_qa_4">4</label>
+                                    <input type="radio" id="instructor_qa_5" name="instructorQA" value="5" required>
+                                    <label for="instructor_qa_5">5</label>
+                                </div>
+                                <span class="scale-label">มากที่สุด</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Time and Organization -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-clock"></i> การจัดการเวลาและการจัดงาน</h3>
+                        
+                        <div class="rating-question">
+                            <label class="question-label">7. ความเหมาะสมของระยะเวลาการอบรม *</label>
+                            <div class="rating-scale">
+                                <span class="scale-label">สั้นเกินไป</span>
+                                <div class="rating-options">
+                                    <input type="radio" id="time_duration_1" name="timeDuration" value="1" required>
+                                    <label for="time_duration_1">1</label>
+                                    <input type="radio" id="time_duration_2" name="timeDuration" value="2" required>
+                                    <label for="time_duration_2">2</label>
+                                    <input type="radio" id="time_duration_3" name="timeDuration" value="3" required>
+                                    <label for="time_duration_3">3</label>
+                                    <input type="radio" id="time_duration_4" name="timeDuration" value="4" required>
+                                    <label for="time_duration_4">4</label>
+                                    <input type="radio" id="time_duration_5" name="timeDuration" value="5" required>
+                                    <label for="time_duration_5">5</label>
+                                </div>
+                                <span class="scale-label">ยาวเกินไป</span>
+                            </div>
+                        </div>
+
+                        <div class="rating-question">
+                            <label class="question-label">8. ความเหมาะสมของการจัดตารางเวลา *</label>
+                            <div class="rating-scale">
+                                <span class="scale-label">น้อยที่สุด</span>
+                                <div class="rating-options">
+                                    <input type="radio" id="time_schedule_1" name="timeSchedule" value="1" required>
+                                    <label for="time_schedule_1">1</label>
+                                    <input type="radio" id="time_schedule_2" name="timeSchedule" value="2" required>
+                                    <label for="time_schedule_2">2</label>
+                                    <input type="radio" id="time_schedule_3" name="timeSchedule" value="3" required>
+                                    <label for="time_schedule_3">3</label>
+                                    <input type="radio" id="time_schedule_4" name="timeSchedule" value="4" required>
+                                    <label for="time_schedule_4">4</label>
+                                    <input type="radio" id="time_schedule_5" name="timeSchedule" value="5" required>
+                                    <label for="time_schedule_5">5</label>
+                                </div>
+                                <span class="scale-label">มากที่สุด</span>
+                            </div>
+                        </div>
+
+                        <div class="rating-question">
+                            <label class="question-label">9. ความพึงพอใจต่อการจัดงานโดยรวม *</label>
+                            <div class="rating-scale">
+                                <span class="scale-label">น้อยที่สุด</span>
+                                <div class="rating-options">
+                                    <input type="radio" id="organization_1" name="organizationOverall" value="1" required>
+                                    <label for="organization_1">1</label>
+                                    <input type="radio" id="organization_2" name="organizationOverall" value="2" required>
+                                    <label for="organization_2">2</label>
+                                    <input type="radio" id="organization_3" name="organizationOverall" value="3" required>
+                                    <label for="organization_3">3</label>
+                                    <input type="radio" id="organization_4" name="organizationOverall" value="4" required>
+                                    <label for="organization_4">4</label>
+                                    <input type="radio" id="organization_5" name="organizationOverall" value="5" required>
+                                    <label for="organization_5">5</label>
+                                </div>
+                                <span class="scale-label">มากที่สุด</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Platform and Technology -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-laptop"></i> แพลตฟอร์มและเทคโนโลยี</h3>
+                        
+                        <div class="rating-question">
+                            <label class="question-label">10. ความพึงพอใจต่อแพลตฟอร์มการอบรมออนไลน์ *</label>
+                            <div class="rating-scale">
+                                <span class="scale-label">น้อยที่สุด</span>
+                                <div class="rating-options">
+                                    <input type="radio" id="platform_1" name="platformSatisfaction" value="1" required>
+                                    <label for="platform_1">1</label>
+                                    <input type="radio" id="platform_2" name="platformSatisfaction" value="2" required>
+                                    <label for="platform_2">2</label>
+                                    <input type="radio" id="platform_3" name="platformSatisfaction" value="3" required>
+                                    <label for="platform_3">3</label>
+                                    <input type="radio" id="platform_4" name="platformSatisfaction" value="4" required>
+                                    <label for="platform_4">4</label>
+                                    <input type="radio" id="platform_5" name="platformSatisfaction" value="5" required>
+                                    <label for="platform_5">5</label>
+                                </div>
+                                <span class="scale-label">มากที่สุด</span>
+                            </div>
+                        </div>
+
+                        <div class="rating-question">
+                            <label class="question-label">11. คุณภาพของเสียงและภาพ *</label>
+                            <div class="rating-scale">
+                                <span class="scale-label">น้อยที่สุด</span>
+                                <div class="rating-options">
+                                    <input type="radio" id="av_quality_1" name="avQuality" value="1" required>
+                                    <label for="av_quality_1">1</label>
+                                    <input type="radio" id="av_quality_2" name="avQuality" value="2" required>
+                                    <label for="av_quality_2">2</label>
+                                    <input type="radio" id="av_quality_3" name="avQuality" value="3" required>
+                                    <label for="av_quality_3">3</label>
+                                    <input type="radio" id="av_quality_4" name="avQuality" value="4" required>
+                                    <label for="av_quality_4">4</label>
+                                    <input type="radio" id="av_quality_5" name="avQuality" value="5" required>
+                                    <label for="av_quality_5">5</label>
+                                </div>
+                                <span class="scale-label">มากที่สุด</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Overall Evaluation -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-star"></i> การประเมินโดยรวม</h3>
+                        
+                        <div class="rating-question">
+                            <label class="question-label">12. ความพึงพอใจต่อโครงการอบรมโดยรวม *</label>
+                            <div class="rating-scale">
+                                <span class="scale-label">น้อยที่สุด</span>
+                                <div class="rating-options">
+                                    <input type="radio" id="overall_1" name="overallSatisfaction" value="1" required>
+                                    <label for="overall_1">1</label>
+                                    <input type="radio" id="overall_2" name="overallSatisfaction" value="2" required>
+                                    <label for="overall_2">2</label>
+                                    <input type="radio" id="overall_3" name="overallSatisfaction" value="3" required>
+                                    <label for="overall_3">3</label>
+                                    <input type="radio" id="overall_4" name="overallSatisfaction" value="4" required>
+                                    <label for="overall_4">4</label>
+                                    <input type="radio" id="overall_5" name="overallSatisfaction" value="5" required>
+                                    <label for="overall_5">5</label>
+                                </div>
+                                <span class="scale-label">มากที่สุด</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recommendation">13. คุณจะแนะนำให้ผู้อื่นเข้าร่วมโครงการอบรมนี้หรือไม่ *</label>
+                            <div class="radio-group">
+                                <input type="radio" id="recommend_yes" name="recommendation" value="yes" required>
+                                <label for="recommend_yes">แนะนำ</label>
+                                <input type="radio" id="recommend_no" name="recommendation" value="no" required>
+                                <label for="recommend_no">ไม่แนะนำ</label>
+                                <input type="radio" id="recommend_maybe" name="recommendation" value="maybe" required>
+                                <label for="recommend_maybe">อาจจะแนะนำ</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Section -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-comments"></i> ข้อเสนอแนะและความคิดเห็น</h3>
+                        
+                        <div class="form-group">
+                            <label for="improvements">14. ข้อเสนอแนะเพื่อการปรับปรุงโครงการอบรม</label>
+                            <textarea id="improvements" name="improvements" rows="4" placeholder="กรุณาแสดงความคิดเห็นและข้อเสนอแนะ..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="additionalTopics">15. หัวข้อที่ต้องการให้เพิ่มเติมในการอบรมครั้งต่อไป</label>
+                            <textarea id="additionalTopics" name="additionalTopics" rows="3" placeholder="หัวข้อที่สนใจ..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="otherComments">16. ความคิดเห็นอื่น ๆ</label>
+                            <textarea id="otherComments" name="otherComments" rows="3" placeholder="ความคิดเห็นเพิ่มเติม..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            ส่งแบบประเมิน
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="successModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-check-circle"></i> ส่งแบบประเมินสำเร็จ!</h2>
+                </div>
+                <div class="modal-body">
+                    <p>ขอบคุณสำหรับการประเมินโครงการอบรม</p>
+                    <p>ข้อมูลของคุณจะถูกนำไปใช้ในการปรับปรุงโครงการต่อไป</p>
+                </div>
+                <div class="modal-actions">
+                    <button onclick="closeModal()" class="modal-btn">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden iframe for form submission -->
+    <iframe name="evaluation_frame" style="display: none;"></iframe>
+
+    <script src="evaluation-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Debug Data Mismatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .debug-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .result {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover { background: #0056b3; }
+        .section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; font-size: 12px; }
+        .comparison { display: flex; gap: 20px; }
+        .comparison > div { flex: 1; }
+        .count-display { font-size: 24px; font-weight: bold; text-align: center; padding: 20px; margin: 10px 0; border-radius: 10px; }
+        .count-actual { background: #d4edda; color: #155724; }
+        .count-system { background: #f8d7da; color: #721c24; }
+        .count-match { background: #d4edda; color: #155724; }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🔍 Debug Data Mismatch</h1>
+        <p>เครื่องมือตรวจสอบความถูกต้องของข้อมูลระหว่าง Google Sheet และระบบ</p>
+        
+        <div class="section">
+            <h3>📊 เปรียบเทียบข้อมูล</h3>
+            <button onclick="compareAllData()">🔄 เปรียบเทียบข้อมูลทั้งหมด</button>
+            <div id="comparisonResult"></div>
+        </div>
+        
+        <div class="section">
+            <h3>📋 ตรวจสอบ Google Sheet โดยตรง</h3>
+            <button onclick="checkGoogleSheet()">📊 ตรวจสอบ Google Sheet</button>
+            <div id="sheetResult"></div>
+        </div>
+        
+        <div class="section">
+            <h3>🔧 ตรวจสอบ Google Apps Script</h3>
+            <button onclick="checkAppsScript()">⚙️ ทดสอบ Apps Script</button>
+            <div id="appsScriptResult"></div>
+        </div>
+        
+        <div class="section">
+            <h3>💾 ตรวจสอบ localStorage</h3>
+            <button onclick="checkLocalStorage()">🗃️ ตรวจสอบ localStorage</button>
+            <div id="localStorageResult"></div>
+        </div>
+        
+        <div class="section">
+            <h3>🎯 ข้อเสนอแนะการแก้ไข</h3>
+            <div id="recommendations"></div>
+        </div>
+    </div>
+
+    <script>
+        const SHEET_ID = '1uI_TA9lR0RsLcakF_GGb7LsM5H8gR3XCnQuiWQ0NuUQ';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyT2RSzRX4kEEsvA_wcd4bvwdO7kmEgBZg7cRnaWwF_QCV4ACSxOlaSu-mh3DmM_Kl2xQ/exec';
+
+        let debugData = {
+            sheetCount: null,
+            appsScriptCount: null,
+            localStorageCount: null,
+            systemCount: null
+        };
+
+        // เปรียบเทียบข้อมูลทั้งหมด
+        async function compareAllData() {
+            const resultDiv = document.getElementById('comparisonResult');
+            resultDiv.innerHTML = '<div class="info">🔍 กำลังตรวจสอบข้อมูลจากทุกแหล่ง...</div>';
+            
+            // ตรวจสอบทุกแหล่งข้อมูล
+            await Promise.all([
+                checkGoogleSheet(),
+                checkAppsScript(),
+                checkLocalStorage(),
+                checkSystemCount()
+            ]);
+            
+            // แสดงผลเปรียบเทียบ
+            displayComparison();
+            generateRecommendations();
+        }
+
+        // ตรวจสอบ Google Sheet โดยตรง
+        async function checkGoogleSheet() {
+            const resultDiv = document.getElementById('sheetResult');
+            resultDiv.innerHTML = '<div class="info">📊 กำลังตรวจสอบ Google Sheet...</div>';
+            
+            try {
+                // วิธีที่ 1: CSV Export
+                const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+                const response = await fetch(csvUrl, { mode: 'cors' });
+                
+                if (response.ok) {
+                    const csvText = await response.text();
+                    const lines = csvText.split('\n').filter(line => line.trim() !== '');
+                    const totalRows = lines.length;
+                    const dataRows = Math.max(0, totalRows - 1); // ลบ header
+                    
+                    debugData.sheetCount = dataRows;
+                    
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ เชื่อมต่อ Google Sheet สำเร็จ</div>
+                        <div class="count-display count-actual">
+                            📊 Google Sheet: ${dataRows} คน
+                        </div>
+                        <p><strong>จำนวนบรรทัดทั้งหมด:</strong> ${totalRows} (รวม header)</p>
+                        <p><strong>จำนวนข้อมูลจริง:</strong> ${dataRows} คน</p>
+                        <details>
+                            <summary>ดูข้อมูล CSV (100 ตัวอักษรแรก)</summary>
+                            <pre>${csvText.substring(0, 500)}${csvText.length > 500 ? '...' : ''}</pre>
+                        </details>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ ไม่สามารถเชื่อมต่อ Google Sheet ได้: ${response.status}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ เกิดข้อผิดพลาด: ${error.message}</div>`;
+                console.error('Google Sheet Error:', error);
+            }
+        }
+
+        // ตรวจสอบ Google Apps Script
+        async function checkAppsScript() {
+            const resultDiv = document.getElementById('appsScriptResult');
+            resultDiv.innerHTML = '<div class="info">⚙️ กำลังทดสอบ Google Apps Script...</div>';
+            
+            try {
+                // ทดสอบ Form Submission
+                const testResult = await testFormSubmission();
+                
+                resultDiv.innerHTML = `
+                    <div class="success">✅ Form Submission ทำงานได้</div>
+                    <div class="warning">⚠️ ไม่สามารถอ่านผลลัพธ์ได้เนื่องจาก CORS</div>
+                    <p>💡 Google Apps Script รับคำขอได้ แต่เราไม่สามารถอ่านผลลัพธ์ได้</p>
+                    <p>🔧 ต้องตรวจสอบ Apps Script Code ว่าประมวลผลข้อมูลถูกต้องหรือไม่</p>
+                `;
+                
+                // ลองใช้ fetch (จะเจอ CORS แต่เพื่อดูว่า endpoint ทำงานหรือไม่)
+                try {
+                    const fetchResponse = await fetch(`${APPS_SCRIPT_URL}?action=count&test=1`, {
+                        method: 'GET',
+                        mode: 'cors'
+                    });
+                    
+                    if (fetchResponse.ok) {
+                        const data = await fetchResponse.json();
+                        debugData.appsScriptCount = data.count || null;
+                        
+                        resultDiv.innerHTML += `
+                            <div class="success">🎉 Fetch ทำงานได้! (ไม่เจอ CORS)</div>
+                            <div class="count-display count-system">
+                                ⚙️ Apps Script: ${data.count || 'N/A'} คน
+                            </div>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        `;
+                    }
+                } catch (fetchError) {
+                    resultDiv.innerHTML += `
+                        <div class="error">❌ Fetch เจอ CORS Error (คาดไว้แล้ว): ${fetchError.message}</div>
+                    `;
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ เกิดข้อผิดพลาด: ${error.message}</div>`;
+                console.error('Apps Script Error:', error);
+            }
+        }
+
+        // ทดสอบ Form Submission
+        function testFormSubmission() {
+            return new Promise((resolve) => {
+                try {
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.name = 'testFrame_' + Date.now();
+                    document.body.appendChild(iframe);
+                    
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = APPS_SCRIPT_URL;
+                    form.target = iframe.name;
+                    
+                    const actionInput = document.createElement('input');
+                    actionInput.type = 'hidden';
+                    actionInput.name = 'action';
+                    actionInput.value = 'count';
+                    form.appendChild(actionInput);
+                    
+                    const testInput = document.createElement('input');
+                    testInput.type = 'hidden';
+                    testInput.name = 'debug';
+                    testInput.value = 'true';
+                    form.appendChild(testInput);
+                    
+                    document.body.appendChild(form);
+                    
+                    form.submit();
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(form);
+                        document.body.removeChild(iframe);
+                        resolve(true);
+                    }, 2000);
+                    
+                } catch (error) {
+                    resolve(false);
+                }
+            });
+        }
+
+        // ตรวจสอบ localStorage
+        function checkLocalStorage() {
+            const resultDiv = document.getElementById('localStorageResult');
+            
+            const savedCount = localStorage.getItem('lastKnownCount');
+            debugData.localStorageCount = savedCount ? parseInt(savedCount) : null;
+            
+            if (savedCount) {
+                resultDiv.innerHTML = `
+                    <div class="success">✅ พบข้อมูลใน localStorage</div>
+                    <div class="count-display count-system">
+                        💾 localStorage: ${savedCount} คน
+                    </div>
+                    <p><strong>ข้อมูลที่บันทึก:</strong> ${savedCount}</p>
+                    <button onclick="clearLocalStorage()">🗑️ ลบข้อมูล localStorage</button>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="warning">⚠️ ไม่พบข้อมูลใน localStorage</div>
+                    <p>ระบบจะใช้ค่าเริ่มต้น</p>
+                `;
+            }
+        }
+
+        // ตรวจสอบค่าที่ระบบแสดงปัจจุบัน
+        function checkSystemCount() {
+            // ตรวจสอบจากหน้าเว็บหลัก
+            const registeredElement = document.querySelector('#registeredCount');
+            if (registeredElement) {
+                debugData.systemCount = parseInt(registeredElement.textContent) || null;
+            } else {
+                // ใช้ค่าจาก localStorage หรือค่าเริ่มต้น
+                debugData.systemCount = debugData.localStorageCount || 6;
+            }
+        }
+
+        // แสดงผลเปรียบเทียบ
+        function displayComparison() {
+            const resultDiv = document.getElementById('comparisonResult');
+            
+            const comparison = `
+                <h4>📊 สรุปการเปรียบเทียบ</h4>
+                <div class="comparison">
+                    <div>
+                        <h5>📋 Google Sheet (ข้อมูลจริง)</h5>
+                        <div class="count-display ${debugData.sheetCount !== null ? 'count-actual' : 'error'}">
+                            ${debugData.sheetCount !== null ? debugData.sheetCount + ' คน' : 'ไม่สามารถดึงได้'}
+                        </div>
+                    </div>
+                    <div>
+                        <h5>💻 ระบบแสดงผล</h5>
+                        <div class="count-display ${debugData.systemCount !== null ? 'count-system' : 'error'}">
+                            ${debugData.systemCount !== null ? debugData.systemCount + ' คน' : 'ไม่พบข้อมูล'}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result ${getComparisonStatus()}">
+                    ${getComparisonMessage()}
+                </div>
+            `;
+            
+            resultDiv.innerHTML = comparison;
+        }
+
+        // ตรวจสอบสถานะการเปรียบเทียบ
+        function getComparisonStatus() {
+            if (debugData.sheetCount === null || debugData.systemCount === null) {
+                return 'error';
+            }
+            return debugData.sheetCount === debugData.systemCount ? 'success' : 'error';
+        }
+
+        // ข้อความการเปรียบเทียบ
+        function getComparisonMessage() {
+            if (debugData.sheetCount === null) {
+                return '❌ ไม่สามารถดึงข้อมูลจาก Google Sheet ได้';
+            }
+            if (debugData.systemCount === null) {
+                return '❌ ไม่พบข้อมูลในระบบ';
+            }
+            
+            const diff = Math.abs(debugData.sheetCount - debugData.systemCount);
+            
+            if (debugData.sheetCount === debugData.systemCount) {
+                return '✅ ข้อมูลตรงกัน! ระบบทำงานถูกต้อง';
+            } else {
+                return `❌ ข้อมูลไม่ตรงกัน! ต่างกัน ${diff} คน (Sheet: ${debugData.sheetCount}, System: ${debugData.systemCount})`;
+            }
+        }
+
+        // สร้างข้อเสนอแนะ
+        function generateRecommendations() {
+            const resultDiv = document.getElementById('recommendations');
+            let recommendations = '<h4>🎯 ข้อเสนอแนะการแก้ไข</h4>';
+            
+            if (debugData.sheetCount === null) {
+                recommendations += `
+                    <div class="error">
+                        <strong>🔧 แก้ไข CORS Issues:</strong><br>
+                        • ตรวจสอบว่าเปิดผ่าน HTTP Server (localhost:8000)<br>
+                        • ตรวจสอบ Google Sheet permissions<br>
+                        • ลองใช้ Incognito mode
+                    </div>
+                `;
+            }
+            
+            if (debugData.sheetCount !== debugData.systemCount && debugData.sheetCount !== null) {
+                recommendations += `
+                    <div class="warning">
+                        <strong>📊 อัปเดตข้อมูลระบบ:</strong><br>
+                        • ลบ localStorage: <button onclick="clearLocalStorage()">ลบข้อมูลเก่า</button><br>
+                        • รีเฟรชหน้าเว็บ: <button onclick="location.reload()">รีเฟรช</button><br>
+                        • ตรวจสอบ Apps Script logic
+                    </div>
+                `;
+            }
+            
+            recommendations += `
+                <div class="info">
+                    <strong>🔍 ขั้นตอนการตรวจสอบเพิ่มเติม:</strong><br>
+                    1. ตรวจสอบ Google Apps Script logs<br>
+                    2. ทดสอบเพิ่ม/ลบข้อมูลใน Google Sheet<br>
+                    3. ตรวจสอบว่า Form Submission ส่งข้อมูลถูกต้อง<br>
+                    4. ตรวจสอบ Apps Script permissions
+                </div>
+            `;
+            
+            resultDiv.innerHTML = recommendations;
+        }
+
+        // ลบ localStorage
+        function clearLocalStorage() {
+            localStorage.removeItem('lastKnownCount');
+            alert('✅ ลบข้อมูล localStorage แล้ว');
+            checkLocalStorage();
+        }
+
+        // เริ่มต้นตรวจสอบเมื่อโหลดหน้า
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔍 Debug Tool พร้อมใช้งาน');
+        });
+    </script>
+</body>
+</html>
