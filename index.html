@@ -104,25 +104,25 @@
         }
         
         .registration-form .form-section .form-row .form-group {
-            flex: 1 1 calc(25% - 0.75rem) !important;
-            min-width: 200px !important;
-            max-width: calc(25% - 0.75rem) !important;
+            flex: 1 1 calc(33.333% - 0.67rem) !important;
+            min-width: 250px !important;
+            max-width: calc(33.333% - 0.67rem) !important;
         }
         
-        /* FORCE 4-COLUMN LAYOUT FOR ALL SECTIONS */
+        /* FORCE 3-COLUMN LAYOUT FOR ALL SECTIONS */
         .form-section .form-row {
             display: flex !important;
-            flex-wrap: nowrap !important;
+            flex-wrap: wrap !important;
             gap: 1rem !important;
             width: 100% !important;
         }
         
         .form-section .form-row .form-group {
             flex: 1 !important;
-            flex-basis: 25% !important;
+            flex-basis: calc(33.333% - 0.67rem) !important;
             flex-grow: 1 !important;
             flex-shrink: 1 !important;
-            min-width: 180px !important;
+            min-width: 250px !important;
             max-width: none !important;
         }
         
@@ -256,10 +256,6 @@
                                 <div style="margin-top: 2px; color: #666;">ลิงก์อบรม จะส่งไปที่อีเมลนี้</div>
                                 <div class="error-message"></div>
                             </div>
-                        </div>
-                        
-                        <!-- Gender and Age Selection -->
-                        <div class="form-row">
                             <div class="form-group">
                                 <label>เพศ *</label>
                                 <div class="radio-group">
@@ -295,22 +291,24 @@
                     <div class="form-section">
                         <h3><i class="fas fa-building"></i> ข้อมูลการติดต่อ</h3>
                         <div class="form-row" style="display: flex !important; gap: 1rem !important; margin-bottom: 1rem !important;">
-                            <div class="form-group" style="flex: 1 1 calc(25% - 0.75rem) !important; min-width: 200px !important;">
+                            <div class="form-group" style="flex: 1 1 calc(33.333% - 0.67rem) !important; min-width: 250px !important;">
                                 <label for="phone">เบอร์มือถือ *</label>
                                 <input type="tel" id="phone" name="phone" placeholder="XXXXXXXXXX" required style="width: 100% !important; box-sizing: border-box !important;">
                                 <div class="error-message"></div>
                             </div>
-                            <div class="form-group" style="flex: 1 1 calc(25% - 0.75rem) !important; min-width: 200px !important;">
+                            <div class="form-group" style="flex: 1 1 calc(33.333% - 0.67rem) !important; min-width: 250px !important;">
                                 <label for="organization">หน่วยงาน / สถาบัน *</label>
                                 <input type="text" id="organization" name="organization" required style="width: 100% !important; box-sizing: border-box !important;">
                                 <div class="error-message"></div>
                             </div>
-                            <div class="form-group" style="flex: 1 1 calc(25% - 0.75rem) !important; min-width: 200px !important;">
+                            <div class="form-group" style="flex: 1 1 calc(33.333% - 0.67rem) !important; min-width: 250px !important;">
                                 <label for="position">ตำแหน่ง / สถานะ *</label>
                                 <input type="text" id="position" name="position" required style="width: 100% !important; box-sizing: border-box !important;">
                                 <div class="error-message"></div>
                             </div>
-                            <div class="form-group" style="flex: 1 1 calc(25% - 0.75rem) !important; min-width: 200px !important;">
+                        </div>
+                        <div class="form-row" style="display: flex !important; gap: 1rem !important; margin-bottom: 1rem !important;">
+                            <div class="form-group" style="flex: 1 1 calc(50% - 0.5rem) !important; min-width: 300px !important;">
                                 <label for="cpruAffiliation">ความเกี่ยวข้องกับ CPRU *</label>
                                 <select id="cpruAffiliation" name="cpruAffiliation" required style="width: 100% !important; box-sizing: border-box !important;">
                                     <option value="">เลือกความเกี่ยวข้อง</option>
@@ -321,27 +319,10 @@
                                 </select>
                                 <div class="error-message"></div>
                             </div>
-                        </div>
-                        <div class="form-row" style="display: flex !important; gap: 1rem !important; margin-bottom: 1rem !important;">
-                            <div class="form-group" style="flex: 1 1 calc(25% - 0.75rem) !important; min-width: 200px !important;">
+                            <div class="form-group" style="flex: 1 1 calc(50% - 0.5rem) !important; min-width: 300px !important;">
                                 <label for="otherContact">ช่องทางติดต่ออื่น ๆ</label>
                                 <input type="text" id="otherContact" name="otherContact" placeholder="Line ID, Facebook, หรือช่องทางอื่น ๆ" style="width: 100% !important; box-sizing: border-box !important;">
                                 <div class="error-message"></div>
-                            </div>
-                            <div class="form-group" style="flex: 1 1 calc(25% - 0.75rem) !important; min-width: 200px !important;">
-                                <!-- Empty placeholder for consistent layout -->
-                                <label>&nbsp;</label>
-                                <div style="height: 40px;"></div>
-                            </div>
-                            <div class="form-group" style="flex: 1 1 calc(25% - 0.75rem) !important; min-width: 200px !important;">
-                                <!-- Empty placeholder for consistent layout -->
-                                <label>&nbsp;</label>
-                                <div style="height: 40px;"></div>
-                            </div>
-                            <div class="form-group" style="flex: 1 1 calc(25% - 0.75rem) !important; min-width: 200px !important;">
-                                <!-- Empty placeholder for consistent layout -->
-                                <label>&nbsp;</label>
-                                <div style="height: 40px;"></div>
                             </div>
                         </div>
                     </div>
@@ -429,7 +410,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="additionalFeedback">ข้อเสนอแนะเพิ่มเติม</label>
-                                <textarea id="additionalFeedback" name="additionalFeedback" rows="4" cols="80" style="width: 200% !important; max-width: none !important; box-sizing: border-box !important;" placeholder="ความคิดเห็นหรือข้อเสนอแนะอื่นๆ ที่เป็นประโยชน์"></textarea>
+                                <textarea id="additionalFeedback" name="additionalFeedback" rows="4" cols="80" style="width: 100% !important; min-height: 120px !important; max-width: 100% !important; box-sizing: border-box !important; resize: vertical;" placeholder="ความคิดเห็นหรือข้อเสนอแนะอื่นๆ ที่เป็นประโยชน์"></textarea>
                                 <div class="error-message"></div>
                             </div>
                         </div>
