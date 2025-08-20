@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การสอนเขียนโค้ดในยุค AI: คู่มือสำหรับอาจารย์</title>
+    
+    <!-- Facebook Open Graph Meta Tags -->
+    <meta property="og:title" content="การสอนเขียนโค้ดในยุค AI: คู่มือสำหรับอาจารย์" />
+    <meta property="og:description" content="คู่มือการสอนเขียนโปรแกรมในยุคปัญญาประดิษฐ์ เปลี่ยนจาก 'เขียนโค้ด' สู่ 'แก้ปัญหาด้วยเทคโนโลยี' พร้อมหลักสูตร 4 ปี และเครื่องมือ AI" />
+    <meta property="og:image" content="https://narasakp.github.io/vibe-coding-training-registration-system/images/ai-coding-guide-featured.jpg" />
+    <meta property="og:url" content="https://narasakp.github.io/vibe-coding-training-registration-system/การสอนเขียนโค้ดในยุค-AI-คู่มือสำหรับอาจารย์.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="AI Coding Education Guide" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="การสอนเขียนโค้ดในยุค AI: คู่มือสำหรับอาจารย์" />
+    <meta name="twitter:description" content="คู่มือการสอนเขียนโปรแกรมในยุคปัญญาประดิษฐ์ เปลี่ยนจาก 'เขียนโค้ด' สู่ 'แก้ปัญหาด้วยเทคโนโลยี'" />
+    <meta name="twitter:image" content="https://narasakp.github.io/vibe-coding-training-registration-system/images/ai-coding-guide-featured.jpg" />
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="description" content="คู่มือการสอนเขียนโปรแกรมในยุคปัญญาประดิษฐ์ เปลี่ยนจาก 'เขียนโค้ด' สู่ 'แก้ปัญหาด้วยเทคโนโลยี' พร้อมหลักสูตร 4 ปี และเครื่องมือ AI" />
+    <meta name="keywords" content="AI, การสอนเขียนโค้ด, ปัญญาประดิษฐ์, การศึกษา, โปรแกรมมิ่ง, คู่มือสำหรับอาจารย์" />
+    <meta name="author" content="อาจารย์ผู้สอนคอมพิวเตอร์" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --text-color: #2d3748;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Sarabun', 'TH SarabunPSK', Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Animated Background Elements */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-shapes:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-shapes:nth-child(2) {
+            top: 20%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .floating-shapes:nth-child(3) {
+            bottom: 10%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        h1 {
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            animation: rainbow-glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes rainbow-glow {
+            0% {
+                filter: hue-rotate(0deg) drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
+            }
+            100% {
+                filter: hue-rotate(360deg) drop-shadow(0 0 30px rgba(118, 75, 162, 0.7));
+            }
+        }
+        
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            padding: 3rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+        }
+        
+        .main-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
+        }
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 2.5rem 0 1.5rem 0;
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--bg-gradient);
+            border-radius: 2px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin: 2rem 0 1rem 0;
+            position: relative;
+        }
+        
+        h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent-color);
+            border-radius: 1px;
+        }
+        .header-info {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-info::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s linear infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .header-info strong {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header-info em {
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        .section {
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            position: relative;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        
+        .highlight-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .highlight-box::before {
+            content: '💡';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 2rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1.5rem;
+            text-align: left;
+            border: none;
+            position: relative;
+        }
+        
+        .comparison-table th {
+            background: var(--bg-gradient);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(102, 126, 234, 0.02);
+        }
+        
+        .old-way {
+            background: linear-gradient(135deg, rgba(254, 215, 215, 0.8), rgba(252, 165, 165, 0.6));
+            position: relative;
+        }
+        
+        .old-way::before {
+            content: '❌';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .new-way {
+            background: linear-gradient(135deg, rgba(198, 246, 213, 0.8), rgba(134, 239, 172, 0.6));
+            position: relative;
+        }
+        
+        .new-way::before {
+            content: '✅';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .comparison-table td {
+            padding-left: 3rem;
+        }
+        .code-block {
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+            color: #e2e8f0;
+            border-radius: 15px;
+            padding: 2rem;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(90deg, #ff5f56, #ffbd2e, #27ca3f);
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .code-block::after {
+            content: '⚡ Code';
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .workflow {
+            background: linear-gradient(135deg, rgba(246, 173, 85, 0.1), rgba(237, 137, 54, 0.1));
+            border-left: 4px solid #f6ad55;
+            border-radius: 0 15px 15px 0;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .workflow::before {
+            content: '🔄';
+            position: absolute;
+            left: -12px;
+            top: 20px;
+            background: white;
+            padding: 5px;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .workflow:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(246, 173, 85, 0.2);
+        }
+        ul, ol {
+            padding-left: 2rem;
+        }
+        
+        li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        li:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+        
+        ul li::before {
+            content: '▶';
+            color: var(--primary-color);
+            position: absolute;
+            left: -1.5rem;
+            transition: var(--transition);
+        }
+        
+        ul li:hover::before {
+            transform: scale(1.2);
+        }
+        .page-break {
+            page-break-before: always;
+            border-top: 2px dashed rgba(102, 126, 234, 0.3);
+            margin-top: 3rem;
+            padding-top: 2rem;
+        }
+        /* Scroll Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--bg-gradient);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+        
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--bg-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transition: var(--transition);
+            z-index: 1000;
+        }
+        
+        .fab:hover {
+            transform: scale(1.1) rotate(360deg);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .main-card {
+                padding: 2rem 1.5rem;
+                margin: 1rem 0;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 1rem 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .bg-animation,
+            .progress-bar,
+            .fab {
+                display: none;
+            }
+            
+            .main-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="floating-shapes"></div>
+        <div class="floating-shapes"></div>
+        <div class="floating-shapes"></div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <div class="main-card">
+            <h1>การสอนเขียนโค้ดในยุค AI: คู่มือสำหรับอาจารย์</h1>
+    
+    <div class="header-info">
+        <strong>เอกสารคู่มือการสอนเขียนโปรแกรมในยุคปัญญาประดิษฐ์</strong><br>
+        <em>จัดทำโดย: อาจารย์ผู้สอนคอมพิวเตอร์</em><br>
+        <em>วันที่: 13 สิงหาคม 2568</em>
+    </div>
+
+    <div class="section">
+        <h2>บทนำ</h2>
+        <p>ในยุคที่ปัญญาประดิษฐ์ (AI) สามารถช่วยเขียนโค้ดได้แทบทุกอย่าง การสอนเขียนโปรแกรมต้องปรับเปลี่ยนแนวทางจากเดิมที่เน้น <strong>"การเขียนโค้ด"</strong> ไปสู่ <strong>"การแก้ปัญหาด้วยเทคโนโลยี"</strong> เอกสารนี้นำเสนอแนวทางการสอนที่ทันสมัยและเตรียมนักศึกษาให้พร้อมสำหรับอนาคต</p>
+    </div>
+
+    <div class="section">
+        <h2>การเปลี่ยนแปลงกระบวนทัศน์</h2>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>แนวทาง</th>
+                    <th>เดิม: "เขียนโค้ดได้"</th>
+                    <th>ใหม่: "แก้ปัญหาด้วยเทคโนโลยีได้"</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>การเรียนรู้</strong></td>
+                    <td class="old-way">เน้นการจำ syntax และ commands</td>
+                    <td class="new-way">เน้นการคิดวิเคราะห์และออกแบบโซลูชัน</td>
+                </tr>
+                <tr>
+                    <td><strong>การเขียนโค้ด</strong></td>
+                    <td class="old-way">ฝึกเขียนโค้ดจากต้นจนจบ</td>
+                    <td class="new-way">ใช้ AI เป็นเครื่องมือช่วยเขียนโค้ด</td>
+                </tr>
+                <tr>
+                    <td><strong>การประเมินผล</strong></td>
+                    <td class="old-way">ประเมินจากความถูกต้องของโค้ด</td>
+                    <td class="new-way">ประเมินจากการแก้ปัญหาและผลลัพธ์</td>
+                </tr>
+                <tr>
+                    <td><strong>การเรียนรู้</strong></td>
+                    <td class="old-way">เรียนรู้แบบแยกส่วน</td>
+                    <td class="new-way">เรียนรู้แบบบูรณาการผ่านโปรเจคจริง</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section page-break">
+        <h2>5 หลักการสำคัญในการสอน</h2>
+
+        <h3>1. Computational Thinking เป็นอันดับแรก</h3>
+        <div class="workflow">
+            <strong>ขั้นตอนการคิดแก้ปัญหา:</strong><br>
+            ปัญหา → วิเคราะห์ → ออกแบบ → ใช้เครื่องมือ → ทดสอบ → ปรับปรุง
+        </div>
+
+        <div class="highlight-box">
+            <strong>องค์ประกอบของ Computational Thinking:</strong>
+            <ul>
+                <li><strong>Problem Decomposition:</strong> แบ่งปัญหาใหญ่เป็นปัญหาย่อยที่จัดการได้</li>
+                <li><strong>Pattern Recognition:</strong> หาแพทเทิร์นที่เคยเจอมาก่อน</li>
+                <li><strong>Abstraction:</strong> สร้างโมเดลที่เข้าใจง่าย</li>
+                <li><strong>Algorithm Design:</strong> วางแผนการแก้ปัญหาเป็นขั้นตอน</li>
+            </ul>
+        </div>
+
+        <h3>2. ทักษะการทำงานร่วมกับ AI</h3>
+        
+        <div class="highlight-box">
+            <strong>Prompt Engineering ที่ดี:</strong>
+            <div class="code-block">
+แทนที่: "เขียน function คำนวณเกรด"
+
+ใช้: "เขียน function คำนวณเกรดสำหรับระบบ A-F 
+โดยรับ input เป็น array ของคะแนน (0-100)
+ต้องการ error handling และ validation
+เขียนเป็น Python พร้อม docstring และ unit tests"
+            </div>
+        </div>
+
+        <p><strong>Code Review Skills ที่สำคัญ:</strong></p>
+        <ul>
+            <li>อ่านและเข้าใจโค้ดที่ AI เขียน</li>
+            <li>ตรวจสอบ logic และ edge cases</li>
+            <li>ปรับปรุงและ optimize โค้ด</li>
+            <li>เขียน tests เพื่อ verify ความถูกต้อง</li>
+        </ul>
+
+        <h3>3. System Design และ Architecture</h3>
+        <div class="workflow">
+            <strong>การคิด Big Picture:</strong><br>
+            Frontend ↔ Backend ↔ Database<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+            &nbsp;&nbsp;&nbsp;UX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Business&nbsp;&nbsp;&nbsp;&nbsp;Data<br>
+            &nbsp;Design&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Logic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure
+        </div>
+
+        <p><strong>Architecture Patterns ที่ต้องเข้าใจ:</strong></p>
+        <ul>
+            <li><strong>MVC:</strong> Model-View-Controller pattern</li>
+            <li><strong>Microservices vs Monolith:</strong> การออกแบบระบบ</li>
+            <li><strong>Database Design:</strong> ERD และ relationships</li>
+            <li><strong>API Design:</strong> RESTful principles</li>
+        </ul>
+
+        <h3>4. Critical Thinking และ Problem Solving</h3>
+        
+        <div class="highlight-box">
+            <strong>คำถามสำคัญก่อนเขียนโค้ด:</strong>
+            <ul>
+                <li>ปัญหาจริงคืออะไร? (Problem Definition)</li>
+                <li>ใครเป็น user? ต้องการอะไร? (User Requirements)</li>
+                <li>Constraints และ limitations คืออะไร? (Technical Constraints)</li>
+                <li>Success metrics คืออะไร? (Definition of Done)</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <strong>ระหว่างการพัฒนา:</strong>
+            <ul>
+                <li>โค้ดนี้ maintainable ไหม? (Code Quality)</li>
+                <li>Performance เป็นยังไง? (Optimization)</li>
+                <li>Security considerations คืออะไร? (Security)</li>
+                <li>Scalability เป็นยังไง? (Growth Planning)</li>
+            </ul>
+        </div>
+
+        <h3>5. Domain Expertise และ Business Understanding</h3>
+        
+        <p><strong>ตัวอย่าง Real-world Applications:</strong></p>
+        <ul>
+            <li><strong>ระบบลงทะเบียน:</strong> เข้าใจ workflow การจัดงาน</li>
+            <li><strong>E-commerce:</strong> เข้าใจ customer journey</li>
+            <li><strong>Healthcare:</strong> เข้าใจ patient care process</li>
+            <li><strong>Education:</strong> เข้าใจ learning process</li>
+        </ul>
+    </div>
+
+    <div class="section page-break">
+        <h2>หลักสูตรที่แนะนำ (4 ปี)</h2>
+
+        <h3>ปีที่ 1: Foundations (รากฐาน)</h3>
+        <div class="highlight-box">
+            <strong>เน้น Fundamentals ที่ AI ทำแทนไม่ได้:</strong>
+            <ul>
+                <li>Computational Thinking (ไม่ใช่ syntax)</li>
+                <li>Data Structures & Algorithms (เข้าใจ concept)</li>
+                <li>Basic Programming (Python/JavaScript)</li>
+                <li>Problem Solving Methodology</li>
+            </ul>
+            <strong>ตัวอย่างโปรเจค:</strong> ระบบคำนวณเกรดนักศึกษา
+        </div>
+
+        <h3>ปีที่ 2: System Thinking (การคิดเชิงระบบ)</h3>
+        <div class="highlight-box">
+            <strong>เน้น Architecture & Design:</strong>
+            <ul>
+                <li>Database Design (ERD, Normalization)</li>
+                <li>Web Development (Frontend + Backend)</li>
+                <li>API Design (RESTful, GraphQL)</li>
+                <li>AI-Assisted Development</li>
+            </ul>
+            <strong>ตัวอย่างโปรเจค:</strong> ระบบจัดการห้องสมุด
+        </div>
+
+        <h3>ปีที่ 3: Advanced Applications (การประยุกต์ขั้นสูง)</h3>
+        <div class="highlight-box">
+            <strong>เน้น Real-world Projects:</strong>
+            <ul>
+                <li>Full-stack Development</li>
+                <li>Cloud Computing (AWS, Azure, GCP)</li>
+                <li>DevOps และ Deployment</li>
+                <li>Data Science และ Analytics</li>
+            </ul>
+            <strong>ตัวอย่างโปรเจค:</strong> E-learning Platform
+        </div>
+
+        <h3>ปีที่ 4: Specialization & Innovation (เฉพาะทางและนวัตกรรม)</h3>
+        <div class="highlight-box">
+            <strong>เลือกเฉพาะทาง:</strong>
+            <ul>
+                <li>AI/ML Engineering</li>
+                <li>Cybersecurity</li>
+                <li>Mobile Development</li>
+                <li>Data Engineering</li>
+                <li>Product Management</li>
+            </ul>
+            <strong>ตัวอย่างโปรเจค:</strong> Capstone Project กับ industry partner
+        </div>
+    </div>
+
+    <div class="section page-break">
+        <h2>เครื่องมือและวิธีการสอน</h2>
+
+        <h3>1. AI-Powered Learning Environment</h3>
+        <div class="workflow">
+            GitHub Copilot + VS Code<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+            นักศึกษาเขียน comment อธิบายสิ่งที่ต้องการ<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+            AI generate โค้ด<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+            นักศึกษาอ่าน, เข้าใจ, และปรับปรุง<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+            อาจารย์ review และให้ feedback
+        </div>
+
+        <h3>2. Project-Based Assessment</h3>
+        <p><strong>แทนที่จะสอบ syntax ให้ประเมินจาก:</strong></p>
+        <ul>
+            <li><strong>Portfolio Projects:</strong> แก้ปัญหาจริงของชุมชนหรือธุรกิจ</li>
+            <li><strong>Code Review Sessions:</strong> อธิบายและรับ feedback</li>
+            <li><strong>Presentation และ Demo:</strong> แสดงผลงานต่อ audience จริง</li>
+            <li><strong>Peer Review:</strong> ทำงานร่วมกันและเรียนรู้ซึ่งกันและกัน</li>
+        </ul>
+
+        <h3>3. Industry Mentorship</h3>
+        <ul>
+            <li><strong>Guest Speakers:</strong> CTO และ senior engineers จากบริษัทเทค</li>
+            <li><strong>Industry Projects:</strong> Partnership กับบริษัทท้องถิ่น</li>
+            <li><strong>Hackathons:</strong> การแข่งขันและนวัตกรรม</li>
+            <li><strong>Startup Incubation:</strong> สนับสนุนการสร้างธุรกิจ</li>
+        </ul>
+    </div>
+
+    <div class="section page-break">
+        <h2>Skills ที่ต้องเน้น (AI-Proof)</h2>
+
+        <h3>1. Human-Centric Skills</h3>
+        <ul>
+            <li><strong>Communication:</strong> อธิบายเทคนิคให้คนอื่นเข้าใจ</li>
+            <li><strong>Collaboration:</strong> ทำงานเป็นทีมอย่างมีประสิทธิภาพ</li>
+            <li><strong>Creativity:</strong> คิดโซลูชันนอกกรอบ</li>
+            <li><strong>Empathy:</strong> เข้าใจ user needs และ pain points</li>
+        </ul>
+
+        <h3>2. Meta-Skills</h3>
+        <ul>
+            <li><strong>Learning How to Learn:</strong> ปรับตัวกับเทคโนโลยีใหม่อย่างรวดเร็ว</li>
+            <li><strong>Critical Thinking:</strong> ประเมิน AI output อย่างมีวิจารณญาณ</li>
+            <li><strong>Systems Thinking:</strong> เข้าใจความเชื่อมโยงระหว่างส่วนต่างๆ</li>
+            <li><strong>Ethical Reasoning:</strong> ใช้เทคโนโลยีอย่างมีจริยธรรม</li>
+        </ul>
+
+        <h3>3. Business Skills</h3>
+        <ul>
+            <li><strong>Product Thinking:</strong> สร้างสิ่งที่คนต้องการจริงๆ</li>
+            <li><strong>Market Understanding:</strong> เข้าใจความต้องการของตลาด</li>
+            <li><strong>Entrepreneurship:</strong> สร้างธุรกิจจากเทคโนโลยี</li>
+            <li><strong>Leadership:</strong> นำทีมและโปรเจค</li>
+        </ul>
+    </div>
+
+    <div class="section page-break">
+        <h2>ตัวอย่างการสอนแบบใหม่</h2>
+
+        <h3>วิธีการสอนแบบเดิม (Traditional)</h3>
+        <div class="code-block old-way">
+# สอน bubble sort algorithm
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+
+# ให้นักศึกษาจำและเขียนซ้ำ
+# ทดสอบโดยให้เขียน algorithm จากหัว
+        </div>
+
+        <p><strong>ปัญหาของวิธีเดิม:</strong></p>
+        <ul>
+            <li>เน้นการจำมากกว่าการเข้าใจ</li>
+            <li>ไม่เชื่อมโยงกับปัญหาจริง</li>
+            <li>AI สามารถเขียนได้ดีกว่า</li>
+            <li>ไม่ได้เรียนรู้การใช้งานจริง</li>
+        </ul>
+
+        <h3>วิธีการสอนแบบใหม่ (AI-Assisted)</h3>
+        <div class="highlight-box new-way">
+            <strong>สถานการณ์จริง:</strong> ระบบลงทะเบียนต้องแสดงรายชื่อนักศึกษาเรียงตามชื่อ
+            
+            <p><strong>ขั้นตอนการแก้ปัญหา:</strong></p>
+            <ol>
+                <li><strong>วิเคราะห์ปัญหา:</strong> ต้องการ sorting สำหรับชื่อภาษาไทย</li>
+                <li><strong>ใช้ AI ช่วยเขียน:</strong> ให้ context และ requirements ชัดเจน</li>
+                <li><strong>ทดสอบและปรับปรุง:</strong> edge cases, performance</li>
+                <li><strong>Integration:</strong> ใส่ในระบบจริง</li>
+                <li><strong>Monitoring:</strong> ดู performance ในการใช้งานจริง</li>
+            </ol>
+        </div>
+
+        <p><strong>ข้อดีของวิธีใหม่:</strong></p>
+        <ul>
+            <li>เชื่อมโยงกับปัญหาจริง</li>
+            <li>เรียนรู้การใช้ AI อย่างมีประสิทธิภาพ</li>
+            <li>เน้น problem solving มากกว่า syntax</li>
+            <li>พัฒนา critical thinking และ real-world skills</li>
+        </ul>
+    </div>
+
+    <div class="section page-break">
+        <h2>การเตรียมตัวสำหรับอาจารย์</h2>
+
+        <h3>1. Upskill ตัวเอง</h3>
+        <ul>
+            <li>เรียนรู้ AI tools (GitHub Copilot, ChatGPT, Claude)</li>
+            <li>ทดลองใช้ในการสอนและวิจัย</li>
+            <li>ติดตาม trends ในอุตสาหกรรม</li>
+            <li>Network กับ industry professionals</li>
+        </ul>
+
+        <h3>2. ปรับ Curriculum</h3>
+        <ul>
+            <li>ลด syntax drilling เพิ่ม problem solving</li>
+            <li>เพิ่ม project-based learning</li>
+            <li>เน้น collaboration และ teamwork</li>
+            <li>รวม ethics และ social impact</li>
+        </ul>
+
+        <h3>3. สร้าง Learning Community</h3>
+        <ul>
+            <li>Student coding clubs</li>
+            <li>Industry partnerships</li>
+            <li>Alumni networks</li>
+            <li>Open source projects</li>
+        </ul>
+    </div>
+
+    <div class="section page-break">
+        <h2>สรุป: อนาคตของการสอนเขียนโค้ด</h2>
+
+        <h3>บทบาทใหม่ของอาจารย์:</h3>
+        <ul>
+            <li><strong>Mentor</strong> มากกว่า instructor</li>
+            <li><strong>Facilitator</strong> มากกว่า lecturer</li>
+            <li><strong>Coach</strong> มากกว่า examiner</li>
+            <li><strong>Connector</strong> ระหว่าง theory และ practice</li>
+        </ul>
+
+        <h3>เป้าหมายสำหรับนักศึกษา:</h3>
+        <div class="highlight-box">
+            <strong>นักศึกษาที่เรียนจบจากเราจะเป็น "Problem Solver" ที่ใช้ AI เป็นเครื่องมือ ไม่ใช่ "Code Monkey" ที่ถูก AI แทนที่</strong>
+        </div>
+
+        <h3>Key Success Factors:</h3>
+        <ol>
+            <li><strong>เริ่มจากปัญหาจริง</strong> แทนที่จะเริ่มจาก syntax</li>
+            <li><strong>ใช้เทคโนโลยีแก้ปัญหา</strong> แทนที่จะเรียนเทคโนโลยีเพื่อเรียน</li>
+            <li><strong>คิดแบบ scalable</strong> และ sustainable</li>
+            <li><strong>เข้าใจ business context</strong> และ user needs</li>
+            <li><strong>พัฒนา soft skills</strong> ที่ AI ทำแทนไม่ได้</li>
+        </ol>
+
+        <div class="highlight-box">
+            <p style="text-align: center; font-style: italic; font-size: 18px;">
+                <strong>"การวิจัยตลาดที่ดีคือรากฐานของผลิตภัณฑ์ที่ยอดเยี่ยม<br>
+                การสอนที่ดีคือรากฐานของนักพัฒนาที่ยอดเยี่ยม"</strong>
+            </p>
+        </div>
+
+        <p style="text-align: center; margin-top: 30px;">
+            <em>เอกสารนี้สามารถนำไปใช้เป็นแนวทางในการปรับปรุงหลักสูตรและวิธีการสอนเขียนโปรแกรมในยุค AI ได้ทันที</em>
+        </p>
+    </div>
+        </div>
+    </div>
+    
+    <!-- Floating Action Button -->
+    <div class="fab" onclick="scrollToTop()" title="กลับไปด้านบน">
+        ⬆️
+    </div>
+    
+    <!-- JavaScript for Interactive Features -->
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+        
+        // Smooth Scroll to Top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0s';
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+        
+        // Add click effects to interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const interactiveElements = document.querySelectorAll('.highlight-box, .workflow, .comparison-table tr');
+            
+            interactiveElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

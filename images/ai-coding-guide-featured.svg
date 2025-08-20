@@ -1,0 +1,64 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#f8fafc;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Floating shapes -->
+  <circle cx="100" cy="100" r="50" fill="rgba(255,255,255,0.1)" opacity="0.7"/>
+  <circle cx="1100" cy="150" r="40" fill="rgba(255,255,255,0.1)" opacity="0.5"/>
+  <circle cx="150" cy="500" r="35" fill="rgba(255,255,255,0.1)" opacity="0.6"/>
+  
+  <!-- Main card -->
+  <rect x="100" y="100" width="1000" height="430" rx="20" fill="url(#cardGradient)" opacity="0.95"/>
+  
+  <!-- Robot/AI Icon -->
+  <g transform="translate(150, 150)">
+    <rect x="0" y="0" width="80" height="80" rx="10" fill="#4299e1"/>
+    <circle cx="25" cy="25" r="8" fill="#ffffff"/>
+    <circle cx="55" cy="25" r="8" fill="#ffffff"/>
+    <rect x="20" y="50" width="40" height="8" rx="4" fill="#ffffff"/>
+    <rect x="10" y="90" width="60" height="40" rx="5" fill="#667eea"/>
+    <rect x="0" y="110" width="20" height="30" rx="3" fill="#764ba2"/>
+    <rect x="60" y="110" width="20" height="30" rx="3" fill="#764ba2"/>
+  </g>
+  
+  <!-- Code brackets -->
+  <g transform="translate(900, 180)" fill="#4299e1" opacity="0.3">
+    <text x="0" y="0" font-family="monospace" font-size="120" font-weight="bold">&lt;/&gt;</text>
+  </g>
+  
+  <!-- Title -->
+  <text x="300" y="200" font-family="Sarabun, sans-serif" font-size="48" font-weight="bold" fill="#2d3748">
+    การสอนเขียนโค้ดในยุค AI
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="300" y="250" font-family="Sarabun, sans-serif" font-size="32" font-weight="500" fill="#4a5568">
+    คู่มือสำหรับอาจารย์
+  </text>
+  
+  <!-- Key points -->
+  <g transform="translate(300, 300)" font-family="Sarabun, sans-serif" font-size="24" fill="#2d3748">
+    <text x="0" y="0">🎯 เปลี่ยนจาก "เขียนโค้ด" สู่ "แก้ปัญหาด้วยเทคโนโลยี"</text>
+    <text x="0" y="40">🤖 ใช้ AI เป็นเครื่องมือช่วยสอน</text>
+    <text x="0" y="80">📚 หลักสูตร 4 ปี พร้อมเครื่องมือและวิธีการ</text>
+  </g>
+  
+  <!-- Bottom accent -->
+  <rect x="0" y="580" width="1200" height="50" fill="rgba(102, 126, 234, 0.2)"/>
+  
+  <!-- Author -->
+  <text x="600" y="610" font-family="Sarabun, sans-serif" font-size="18" text-anchor="middle" fill="#ffffff">
+    จัดทำโดย: อาจารย์ผู้สอนคอมพิวเตอร์ | สิงหาคม 2568
+  </text>
+</svg>
